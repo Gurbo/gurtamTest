@@ -101,11 +101,11 @@ typedef void (^ArrayWithNumbers)(NSArray *array);
 - (void) searchNumbersAlgorithm:(ArrayWithNumbers)block
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        long long n = [self.inputTextField.text longLongValue];
+        long n = (long)[self.inputTextField.text longLongValue];
         NSMutableArray *arr = [NSMutableArray array];
         [arr addObject:[NSNumber numberWithInt:2]];
         
-        for (long long i = 3; i < n+1; i += 2) {
+        for (long i = 3; i < n+1; i += 2) {
             if (!((i > 10) && (i % 10 == 5))) {
                 BOOL additionFlag;
                 for (NSNumber *intNumber in arr) {
@@ -180,6 +180,23 @@ typedef void (^ArrayWithNumbers)(NSArray *array);
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self searchAction:nil];
+    [self.inputTextField resignFirstResponder];
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    if ([newString length] > 14)
+        return NO;
+    else
+        return YES;
 }
 
 @end
