@@ -13,6 +13,8 @@
 		845C08E81BB3251B005F55B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845C08E61BB3251B005F55B5 /* Main.storyboard */; };
 		845C08EA1BB3251B005F55B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 845C08E91BB3251B005F55B5 /* Assets.xcassets */; };
 		845C08ED1BB3251B005F55B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845C08EB1BB3251B005F55B5 /* LaunchScreen.storyboard */; };
+		845C08F61BB33322005F55B5 /* Cache.m in Sources */ = {isa = PBXBuildFile; fileRef = 845C08F51BB33322005F55B5 /* Cache.m */; settings = {ASSET_TAGS = (); }; };
+		845C08F81BB33380005F55B5 /* cache.plist in Resources */ = {isa = PBXBuildFile; fileRef = 845C08F71BB33380005F55B5 /* cache.plist */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,9 @@
 		845C08E91BB3251B005F55B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		845C08EC1BB3251B005F55B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		845C08EE1BB3251B005F55B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		845C08F41BB33322005F55B5 /* Cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cache.h; sourceTree = "<group>"; };
+		845C08F51BB33322005F55B5 /* Cache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cache.m; sourceTree = "<group>"; };
+		845C08F71BB33380005F55B5 /* cache.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = cache.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +72,9 @@
 				845C08EB1BB3251B005F55B5 /* LaunchScreen.storyboard */,
 				845C08EE1BB3251B005F55B5 /* Info.plist */,
 				845C08DD1BB3251B005F55B5 /* Supporting Files */,
+				845C08F41BB33322005F55B5 /* Cache.h */,
+				845C08F51BB33322005F55B5 /* Cache.m */,
+				845C08F71BB33380005F55B5 /* cache.plist */,
 			);
 			path = gurtamTest;
 			sourceTree = "<group>";
@@ -137,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				845C08ED1BB3251B005F55B5 /* LaunchScreen.storyboard in Resources */,
+				845C08F81BB33380005F55B5 /* cache.plist in Resources */,
 				845C08EA1BB3251B005F55B5 /* Assets.xcassets in Resources */,
 				845C08E81BB3251B005F55B5 /* Main.storyboard in Resources */,
 			);
@@ -151,6 +160,7 @@
 			files = (
 				845C08E51BB3251B005F55B5 /* ViewController.m in Sources */,
 				845C08E21BB3251B005F55B5 /* AppDelegate.m in Sources */,
+				845C08F61BB33322005F55B5 /* Cache.m in Sources */,
 				845C08DF1BB3251B005F55B5 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
