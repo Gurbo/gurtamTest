@@ -7,6 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "Cache.h"
+
+#define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+
+typedef void (^ArrayWithNumbers)(NSArray *array);
 
 @interface ViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
@@ -23,12 +28,116 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
+    self.inputTextField.delegate = self;
+    self.inputTextField.keyboardType = UIKeyboardTypeNumberPad;
+    self.activityIndicator.hidden = YES;
+    [self.searchButton addTarget:self action:@selector(searchAction:) forControlEvents:UIControlEventTouchUpInside];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - SearchAction
+
+- (void) searchAction:(id)sender
+{
+    NSCharacterSet *numericOnly = [NSCharacterSet decimalDigitCharacterSet];
+    NSCharacterSet *myStringSet = [NSCharacterSet characterSetWithCharactersInString:self.inputTextField.text];
+    
+    if (![numericOnly isSupersetOfSet: myStringSet])
+    {
+        if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
+            UIAlertView *av  = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Enter the correct string" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [av show];
+            return;
+        } else {
+            UIAlertController *av = [UIAlertController alertControllerWithTitle:@"Error" message:@"Enter the correct string" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:^(UIAlertAction *action) {
+                                                                 [self dismissViewControllerAnimated:YES completion:nil];
+                                                             }];
+            [av addAction:okAction];
+            [self presentViewController:av animated:YES completion:nil];
+            return;
+        }
+    }
+    
+    [self searchActionSetDesignSettings];
+    self.numbersDataSource = [[Cache sharedInstance].cachedDictionary objectForKey:self.inputTextField.text];
+    if (self.numbersDataSource.count == 0) {
+        [self searchNumbersAlgorithm:^(NSArray *array) {
+            if (![[Cache sharedInstance].cachedDictionary objectForKey:self.inputTextField.text]) {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                    [[Cache sharedInstance].cachedDictionary setObject:array forKey:self.inputTextField.text];
+                    [[Cache sharedInstance] saveCache];
+                });
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"SEARCHED!");
+                [self setDesignElementsEnabled:YES];
+                self.activityIndicator.hidden = YES;
+                self.numbersDataSource = [NSMutableArray arrayWithArray:array];
+                [self.tableView reloadData];
+            });
+        }];
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"CACHED!");
+            [self setDesignElementsEnabled:YES];
+            self.activityIndicator.hidden = YES;
+            [self.tableView reloadData];
+        });
+    }
+}
+
+- (void) searchNumbersAlgorithm:(ArrayWithNumbers)block
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        long long n = [self.inputTextField.text longLongValue];
+        NSMutableArray *arr = [NSMutableArray array];
+        [arr addObject:[NSNumber numberWithInt:2]];
+        
+        for (long long i = 3; i < n+1; i += 2) {
+            if (!((i > 10) && (i % 10 == 5))) {
+                BOOL additionFlag;
+                for (NSNumber *intNumber in arr) {
+                    int numFromArray = [intNumber intValue];
+                    if (numFromArray * numFromArray - 1 > i)  {
+                        [arr addObject:[NSNumber numberWithLong:i]];
+                        additionFlag = YES;
+                        break;
+                    }
+                    if (i % numFromArray == 0) {
+                        break;
+                    }
+                }
+                if (!additionFlag) {
+                    [arr addObject:[NSNumber numberWithLong:i]];
+                }
+            }
+        }
+        block(arr);
+    });
+}
+
+- (void) searchActionSetDesignSettings
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.inputTextField resignFirstResponder];
+        [self setDesignElementsEnabled:NO];
+        [self.activityIndicator startAnimating];
+    });
+}
+
+- (void) setDesignElementsEnabled:(BOOL)enabled
+{
+    self.inputTextField.enabled = enabled;
+    self.searchButton.enabled   = enabled;
+    self.activityIndicator.hidden = enabled;
 }
 
 #pragma mark - UITableViewDelegate
@@ -50,6 +159,11 @@
         cell.textLabel.text = [NSString stringWithFormat:@"%@", [self.numbersDataSource objectAtIndex:indexPath.row]];
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end
