@@ -177,9 +177,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="XRe-JI-miz" kind="show" id="k1M-22-bQC"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -188,15 +185,18 @@
                         </connections>
                     </tableView>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <segue destination="XRe-JI-miz" kind="show" identifier="showDetailHistorySegue" id="F30-F0-a26"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XFh-fN-dW7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="331" y="377"/>
         </scene>
-        <!--Table View Controller-->
+        <!--History Details Table View Controller-->
         <scene sceneID="zMp-oe-fdC">
             <objects>
-                <tableViewController id="XRe-JI-miz" sceneMemberID="viewController">
+                <tableViewController id="XRe-JI-miz" customClass="HistoryDetailsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="NXY-UZ-6vP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

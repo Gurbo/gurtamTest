@@ -8,8 +8,10 @@
 
 #import "HistoryTableViewController.h"
 #import "Cache.h"
+#import "HistoryDetailsTableViewController.h"
 
 @interface HistoryTableViewController ()
+@property (nonatomic, strong) NSArray *keysArray;
 @end
 
 @implementation HistoryTableViewController
@@ -41,23 +43,24 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     if ([Cache sharedInstance].cachedDictionary.count != 0) {
-        NSArray *keyArray = [[Cache sharedInstance].cachedDictionary allKeys];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@", [keyArray objectAtIndex:indexPath.row]];
+        self.keysArray = [[Cache sharedInstance].cachedDictionary allKeys];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", [self.keysArray objectAtIndex:indexPath.row]];
     }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self performSegueWithIdentifier:@"showDetailHistorySegue" sender:[self.keysArray objectAtIndex:indexPath.row]];
 }
 
 
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    HistoryDetailsTableViewController *detailsVC = [segue destinationViewController];
+    detailsVC.searchDataSource = [NSArray arrayWithArray:[[Cache sharedInstance].cachedDictionary objectForKey:[NSString stringWithFormat:@"%@", (NSString *)sender]]];
+    
 }
 
 
