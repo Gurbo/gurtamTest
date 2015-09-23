@@ -24,7 +24,7 @@
             </objects>
             <point key="canvasLocation" x="-476" y="377"/>
         </scene>
-        <!--View Controller-->
+        <!--GurtamTest-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
@@ -137,7 +137,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="CGb-IG-j7h">
+                    <navigationItem key="navigationItem" title="GurtamTest" id="CGb-IG-j7h">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="Plo-oA-ERB">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="grq-zX-CZu">
                                 <rect key="frame" x="233" y="7" width="71" height="30"/>
@@ -161,10 +161,10 @@
             </objects>
             <point key="canvasLocation" x="-103" y="377"/>
         </scene>
-        <!--Table View Controller-->
+        <!--History Table View Controller-->
         <scene sceneID="JJ1-e1-qkd">
             <objects>
-                <tableViewController id="jfF-xi-aMT" sceneMemberID="viewController">
+                <tableViewController id="jfF-xi-aMT" customClass="HistoryTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="aJB-MF-MBf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
