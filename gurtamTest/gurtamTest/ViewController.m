@@ -52,11 +52,11 @@ typedef void (^ArrayWithNumbers)(NSArray *array);
     if (![numericOnly isSupersetOfSet: myStringSet])
     {
         if (SYSTEM_VERSION_LESS_THAN(@"9.0")) {
-            UIAlertView *av  = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Enter the correct string" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            UIAlertView *av  = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Enter the correct number" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [av show];
             return;
         } else {
-            UIAlertController *av = [UIAlertController alertControllerWithTitle:@"Error" message:@"Enter the correct string" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *av = [UIAlertController alertControllerWithTitle:@"Error" message:@"Enter the correct number" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
                                                                style:UIAlertActionStyleDefault
                                                              handler:^(UIAlertAction *action) {
@@ -81,7 +81,7 @@ typedef void (^ArrayWithNumbers)(NSArray *array);
                 });
             }
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"SEARCHED!");
+                NSLog(@"Search finished");
                 [self setDesignElementsEnabled:YES];
                 self.activityIndicator.hidden = YES;
                 self.numbersDataSource = [NSMutableArray arrayWithArray:array];
@@ -90,7 +90,7 @@ typedef void (^ArrayWithNumbers)(NSArray *array);
         }];
     } else {
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"CACHED!");
+            NSLog(@"Cache loaded");
             [self setDesignElementsEnabled:YES];
             self.activityIndicator.hidden = YES;
             [self.tableView reloadData];
@@ -112,6 +112,7 @@ typedef void (^ArrayWithNumbers)(NSArray *array);
                     int numFromArray = [intNumber intValue];
                     if (numFromArray * numFromArray - 1 > i)  {
                         [arr addObject:[NSNumber numberWithLong:i]];
+                        [self updateTableViewDinamicallyWithArray:arr];
                         additionFlag = YES;
                         break;
                     }
@@ -121,11 +122,21 @@ typedef void (^ArrayWithNumbers)(NSArray *array);
                 }
                 if (!additionFlag) {
                     [arr addObject:[NSNumber numberWithLong:i]];
+                    [self updateTableViewDinamicallyWithArray:arr];
                 }
             }
         }
         block(arr);
     });
+}
+
+- (void) updateTableViewDinamicallyWithArray:(NSMutableArray *)array {
+    if (array.count % 1000 == 0) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.numbersDataSource = array;
+            [self.tableView reloadData];
+        });
+    }
 }
 
 - (void) searchActionSetDesignSettings
