@@ -152,6 +152,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="activityIndicator" destination="bTo-ib-SnR" id="imQ-UB-T7B"/>
+                        <outlet property="historyButton" destination="grq-zX-CZu" id="XZC-6p-bwV"/>
                         <outlet property="inputTextField" destination="vUZ-vC-07t" id="dGU-AS-6Ks"/>
                         <outlet property="searchButton" destination="zb3-Nq-uaV" id="rEC-gr-eQx"/>
                         <outlet property="tableView" destination="0sB-So-SMV" id="Kwd-Bg-tlH"/>

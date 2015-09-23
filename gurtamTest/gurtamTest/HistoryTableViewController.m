@@ -16,7 +16,8 @@
 
 @implementation HistoryTableViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
      self.navigationItem.title = @"Search History";
 }
@@ -30,7 +31,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
     return [Cache sharedInstance].cachedDictionary.count;
 }
 
@@ -54,7 +54,6 @@
     [self performSegueWithIdentifier:@"showDetailHistorySegue" sender:[self.keysArray objectAtIndex:indexPath.row]];
 }
 
-
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -62,6 +61,5 @@
     detailsVC.searchDataSource = [NSArray arrayWithArray:[[Cache sharedInstance].cachedDictionary objectForKey:[NSString stringWithFormat:@"%@", (NSString *)sender]]];
     
 }
-
 
 @end

@@ -18,6 +18,7 @@ typedef void (^ArrayWithNumbers)(NSArray *array);
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextField *inputTextField;
 @property (weak, nonatomic) IBOutlet UIButton *searchButton;
+@property (weak, nonatomic) IBOutlet UIButton *historyButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) NSMutableArray *numbersDataSource;
 
@@ -25,7 +26,8 @@ typedef void (^ArrayWithNumbers)(NSArray *array);
 
 @implementation ViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.inputTextField.delegate = self;
@@ -69,6 +71,8 @@ typedef void (^ArrayWithNumbers)(NSArray *array);
     [self searchActionSetDesignSettings];
     self.numbersDataSource = [[Cache sharedInstance].cachedDictionary objectForKey:self.inputTextField.text];
     if (self.numbersDataSource.count == 0) {
+        self.numbersDataSource = nil;
+        [self.tableView reloadData];
         [self searchNumbersAlgorithm:^(NSArray *array) {
             if (![[Cache sharedInstance].cachedDictionary objectForKey:self.inputTextField.text]) {
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -135,6 +139,7 @@ typedef void (^ArrayWithNumbers)(NSArray *array);
 
 - (void) setDesignElementsEnabled:(BOOL)enabled
 {
+    self.historyButton.enabled = enabled;
     self.inputTextField.enabled = enabled;
     self.searchButton.enabled   = enabled;
     self.activityIndicator.hidden = enabled;

@@ -10,12 +10,12 @@
 #import "Cache.h"
 
 @interface HistoryDetailsTableViewController ()
-
 @end
 
 @implementation HistoryDetailsTableViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.navigationItem.title = @"Details";
 }
@@ -24,11 +24,11 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 #pragma mark - UITableViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
     return self.searchDataSource.count;
 }
 
